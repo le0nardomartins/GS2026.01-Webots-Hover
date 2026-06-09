@@ -1,0 +1,524 @@
+#VRML_SIM R2025a utf8
+
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackground.proto"
+EXTERNPROTO "https://raw.githubusercontent.com/cyberbotics/webots/R2025a/projects/objects/backgrounds/protos/TexturedBackgroundLight.proto"
+
+WorldInfo {
+  gravity 3.71
+}
+Viewpoint {
+  orientation -0.20382236883426577 -0.31874481518122827 0.925666346346173 4.875922303392836
+  position -32.379923571889314 106.45510926931595 63.113197406754544
+}
+TexturedBackground {
+  texture "mars"
+}
+TexturedBackgroundLight {
+  texture "mars"
+}
+Robot {
+  translation -13.7211 20.591 6.01505
+  rotation 0.00025416814211191526 -0.0034498358914782615 0.9999940169975405 3.133253709144234
+  children [
+    DistanceSensor {
+      translation 0 0.25 1.15
+      rotation 0 1 0 0
+      name "prox_front"
+      lookupTable [
+        0 1000 0
+        0.5 500 0
+        1.5 0 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -0.55 0.25 1
+      rotation 0 1 0 -0.45
+      name "prox_front_left"
+      lookupTable [
+        0 1000 0
+        0.5 500 0
+        1.5 0 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 0.55 0.25 1
+      rotation 0 1 0 -0.45
+      name "prox_front_right"
+      lookupTable [
+        0 1000 0
+        0.5 500 0
+        1.5 0 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation -1.05 0.25 0
+      rotation 0 1 0 -1.5708
+      name "prox_left"
+      lookupTable [
+        0 1000 0
+        0.5 500 0
+        1.5 0 0
+      ]
+      type "infra-red"
+    }
+    DistanceSensor {
+      translation 1.05 0.25 0
+      rotation 0 1 0 -1.5708
+      name "prox_right"
+      lookupTable [
+        0 1000 0
+        0.5 500 0
+        1.5 0 0
+      ]
+      type "infra-red"
+    }
+    Display {
+      name "hud_display"
+      width 1024
+      height 900
+    }
+    Camera {
+      translation 3.17406e-06 1.63625 0.68478
+      rotation 0.12942601002786294 -0.1294270100279404 -0.9831060761705702 -1.5878353071795859
+      children [
+        Pose {
+          translation 0.007 0 0
+          rotation 0 1 0 -1.5
+          children [
+            Shape {
+              appearance PBRAppearance {
+              }
+              geometry Cylinder {
+                height 0.4
+                radius 0.06
+              }
+            }
+          ]
+        }
+        Shape {
+          appearance PBRAppearance {
+            baseColor 0.2 0.2 0.2
+            roughness 1
+            metalness 0.5
+          }
+          geometry Box {
+            size 0.4 0.3 0.2
+          }
+        }
+      ]
+      name "front_camera"
+      fieldOfView 1.4
+      width 640
+      height 360
+      near 0.05
+      far 80
+      lens Lens {
+      }
+      recognition Recognition {
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.2572359236608166
+        anchor -1.15 -1.35 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_front_left"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation -1.15 -1.35 -0.65
+        rotation 0.5239264423788446 0.6677797017743908 0.5287450736171002 1.9077803715511934
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_front_left"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 260.93024874741167
+        anchor 1.15 -1.35 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_front_right"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation 1.15 -1.35 -0.65
+        rotation -0.5624321353980192 0.6411433720890971 -0.5221161456015756 1.9955088451841554
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_front_right"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.05092698192647549
+        anchor -1.15 1.35 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_back_left"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation -1.15 1.3477706006284436 -0.6151394850630266
+        rotation 0.5925579523877695 0.5473063412671071 0.5910421658992079 2.080339545892049
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_back_left"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 245.76033224723346
+        anchor 1.15 1.35 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_back_right"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation 1.15 1.3267300039517849 -0.6239474951848215
+        rotation -0.6822365875385863 -0.2943883680994971 -0.6692448934070545 3.7750915591002925
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_back_right"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position -0.21488917745873493
+        anchor -1.15 0 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_mid_left"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation -1.15 0 -0.65
+        rotation 0.5346093123353814 0.6512996022212405 0.5385180696232433 1.9301946351552797
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_mid_left"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 259.63690806964075
+        anchor 1.15 0 -0.65
+      }
+      device [
+        RotationalMotor {
+          name "motor_mid_right"
+          maxTorque 100
+        }
+      ]
+      endPoint Solid {
+        translation 1.15 0 -0.65
+        rotation -0.7116906387287295 0.167458709958866 -0.6822419037297588 2.8445610282886107
+        children [
+          Shape {
+            appearance PBRAppearance {
+              baseColor 0.02 0.02 0.02
+              roughness 0.7
+            }
+            geometry Cylinder {
+              height 0.27
+              radius 0.36
+            }
+          }
+        ]
+        name "wheel_mid_right"
+        boundingObject Cylinder {
+          height 0.27
+          radius 0.36
+        }
+        physics Physics {
+          density -1
+          mass 5
+        }
+      }
+    }
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0.7 0.8 0.9
+        roughness 0.1
+      }
+      geometry Box {
+        size 2 3 1.5
+      }
+    }
+  ]
+  name "Mars_Hover"
+  boundingObject Box {
+    size 2 3 1.5
+  }
+  physics Physics {
+    density -1
+    mass 100
+    centerOfMass [
+      0 -0.12 0
+    ]
+    damping Damping {
+      angular 1
+    }
+  }
+  controller "mars_hover_controller"
+}
+Solid {
+  translation 0 -7.34 0
+  children [
+    Solid {
+      translation -12.669999625366488 -3.8400022428703036 5.128130964418409
+      rotation 0.49071715125663845 0.3369227761531895 -0.8035419841998284 3.4240261593687747e-07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 5
+          }
+        }
+      ]
+      name "rock_1"
+      boundingObject Capsule {
+        height 1
+        radius 5
+        subdivision 16
+      }
+      physics Physics {
+        density -1
+        mass 500
+      }
+      linearVelocity 0 0 -1.449721779467823e-05
+    }
+    Solid {
+      translation -4.05 11.59 5.125166450593136
+      rotation 0.4907171512566385 0.33692277615318955 -0.8035419841998284 3.4240261593687747e-07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 5
+          }
+        }
+      ]
+      name "rock_3"
+      boundingObject Capsule {
+        height 1
+        radius 5
+        subdivision 16
+      }
+      physics Physics {
+        density -1
+        mass 500
+      }
+      linearVelocity 0 0 -1.449721779467823e-05
+    }
+    Solid {
+      translation -63.11 -20.92 4.795159141058739
+      rotation 0.4921152047604468 0.3370397016964671 -0.8026374428868491 3.424026159368775e-07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+              filtering 5
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+          }
+          geometry Box {
+            size 100 10 15
+          }
+        }
+      ]
+      name "rock_2"
+      boundingObject Box {
+        size 100 10 15
+      }
+      physics Physics {
+        density -1
+        mass 500
+      }
+      linearVelocity 0 0 -1.449721779467823e-05
+    }
+    Transform {
+      translation 0 -734 -11
+      scale 500 500 10
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../textures/mars_soil.png"
+              ]
+            }
+            roughness 1
+            metalness 0
+            metalnessMap ImageTexture {
+              url [
+                "../martian_terrain/image0.png"
+              ]
+            }
+            normalMap ImageTexture {
+              url [
+                "../textures/mars_soil_normal.png"
+              ]
+            }
+            normalMapFactor 1.5
+            textureTransform TextureTransform {
+              scale 10 10
+            }
+          }
+          geometry Mesh {
+            url [
+              "../martian_terrain/martian_terrain.obj"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+  name "Mars_Ground"
+  boundingObject Box {
+    size 1000 1000 10
+  }
+}

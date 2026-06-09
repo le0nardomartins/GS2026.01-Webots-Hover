@@ -1,0 +1,11 @@
+newmtl mat0
+Ns 0
+Ka 1.0 1.0 1.0
+Kd 1.0 1.0 1.0
+Ks 0.0 0.0 0.0
+Ke 0.0 0.0 0.0
+Ni 1.0
+d 1.0
+illum 2
+map_Kd image1.png
+bump image2.png
