@@ -7,8 +7,8 @@ WorldInfo {
   gravity 3.71
 }
 Viewpoint {
-  orientation -0.20382236883426577 -0.31874481518122827 0.925666346346173 4.875922303392836
-  position -32.379923571889314 106.45510926931595 63.113197406754544
+  orientation 0.34231130309060226 0.1125625846070727 -0.9328197233779899 2.853247118212075
+  position 106.88227309353763 67.03297423436669 103.3687518754106
 }
 TexturedBackground {
   texture "mars"
@@ -17,11 +17,38 @@ TexturedBackgroundLight {
   texture "mars"
 }
 Robot {
-  translation -13.7211 20.591 6.01505
-  rotation 0.00025416814211191526 -0.0034498358914782615 0.9999940169975405 3.133253709144234
+  translation -8.844514863610723 24.638588834848846 6.0545331338222965
+  rotation 0.00035292870465840695 0.00026493382146769033 0.999999902625695 2.7901245666859493
   children [
+    Transform {
+      translation 0.0500249 2.05 -0.29
+      rotation 0 0 1 3.14159
+      scale 0.02 0.02 0.02
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "../mesh/Design sem nome (2).png"
+              ]
+            }
+            roughness 1
+            metalness 0
+            textureTransform TextureTransform {
+              scale 0.0005 0.0005
+            }
+          }
+          geometry Mesh {
+            url [
+              "../mesh/GS2026-Hover-Chassi.obj"
+            ]
+          }
+          castShadows FALSE
+        }
+      ]
+    }
     DistanceSensor {
-      translation 0 0.25 1.15
+      translation 0.07 2.53 1.15
       rotation 0 1 0 0
       name "prox_front"
       lookupTable [
@@ -32,7 +59,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation -0.55 0.25 1
+      translation -1.03621 0.25 0.765107
       rotation 0 1 0 -0.45
       name "prox_front_left"
       lookupTable [
@@ -43,7 +70,7 @@ Robot {
       type "infra-red"
     }
     DistanceSensor {
-      translation 0.55 0.25 1
+      translation 0.999756 0.25 0.85087
       rotation 0 1 0 -0.45
       name "prox_front_right"
       lookupTable [
@@ -81,34 +108,8 @@ Robot {
       height 900
     }
     Camera {
-      translation 3.17406e-06 1.63625 0.68478
-      rotation 0.12942601002786294 -0.1294270100279404 -0.9831060761705702 -1.5878353071795859
-      children [
-        Pose {
-          translation 0.007 0 0
-          rotation 0 1 0 -1.5
-          children [
-            Shape {
-              appearance PBRAppearance {
-              }
-              geometry Cylinder {
-                height 0.4
-                radius 0.06
-              }
-            }
-          ]
-        }
-        Shape {
-          appearance PBRAppearance {
-            baseColor 0.2 0.2 0.2
-            roughness 1
-            metalness 0.5
-          }
-          geometry Box {
-            size 0.4 0.3 0.2
-          }
-        }
-      ]
+      translation 3.45715e-05 2.00616 0.906508
+      rotation -0.12942697652524895 0.12942797652506757 0.9831058216896892 1.58783
       name "front_camera"
       fieldOfView 1.4
       width 640
@@ -122,8 +123,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -0.2572359236608166
-        anchor -1.15 -1.35 -0.65
+        position -31.40848838619381
+        anchor -1.45 -1.35 -0.7
       }
       device [
         RotationalMotor {
@@ -132,8 +133,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -1.15 -1.35 -0.65
-        rotation 0.5239264423788446 0.6677797017743908 0.5287450736171002 1.9077803715511934
+        translation -1.45 -1.35 -0.7
+        rotation -0.5840923722137522 -0.5643101632097569 -0.5834296362200749 4.228437819254101
         children [
           Shape {
             appearance PBRAppearance {
@@ -141,14 +142,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_front_left"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -159,8 +160,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 260.93024874741167
-        anchor 1.15 -1.35 -0.65
+        position 193.02670091868427
+        anchor 1.55 -1.35 -0.7
       }
       device [
         RotationalMotor {
@@ -169,8 +170,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 1.15 -1.35 -0.65
-        rotation -0.5624321353980192 0.6411433720890971 -0.5221161456015756 1.9955088451841554
+        translation 1.55 -1.35 -0.7
+        rotation 0.11410037447464373 -0.9904729146909294 0.07710064726317868 4.7342743214210525
         children [
           Shape {
             appearance PBRAppearance {
@@ -178,14 +179,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_front_right"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -196,8 +197,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 0.05092698192647549
-        anchor -1.15 1.35 -0.65
+        position -31.107508804764443
+        anchor -1.46 1.54 -0.7
       }
       device [
         RotationalMotor {
@@ -206,8 +207,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -1.15 1.3477706006284436 -0.6151394850630266
-        rotation 0.5925579523877695 0.5473063412671071 0.5910421658992079 2.080339545892049
+        translation -1.46 1.54 -0.7
+        rotation -0.6354855770917105 -0.44752504467651916 -0.6291894910880944 4.044487651748769
         children [
           Shape {
             appearance PBRAppearance {
@@ -215,14 +216,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_back_left"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -233,8 +234,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 245.76033224723346
-        anchor 1.15 1.35 -0.65
+        position 177.78313954644585
+        anchor 1.54 1.54 -0.7
       }
       device [
         RotationalMotor {
@@ -243,8 +244,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 1.15 1.3267300039517849 -0.6239474951848215
-        rotation -0.6822365875385863 -0.2943883680994971 -0.6692448934070545 3.7750915591002925
+        translation 1.54 1.54 -0.7
+        rotation 0.7166876761293635 -0.1073298431836892 0.689085683820566 3.315488070643731
         children [
           Shape {
             appearance PBRAppearance {
@@ -252,14 +253,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_back_right"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -270,8 +271,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position -0.21488917745873493
-        anchor -1.15 0 -0.65
+        position -31.3717659586083
+        anchor -1.44 -0.46 -0.7
       }
       device [
         RotationalMotor {
@@ -280,8 +281,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation -1.15 0 -0.65
-        rotation 0.5346093123353814 0.6512996022212405 0.5385180696232433 1.9301946351552797
+        translation -1.44 -0.46 -0.7
+        rotation -0.591265374207922 -0.5499501249559288 -0.5898814434475154 4.206850880167567
         children [
           Shape {
             appearance PBRAppearance {
@@ -289,14 +290,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_mid_left"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -307,8 +308,8 @@ Robot {
     }
     HingeJoint {
       jointParameters HingeJointParameters {
-        position 259.63690806964075
-        anchor 1.15 0 -0.65
+        position 191.7227895960906
+        anchor 1.56 -0.45 -0.7
       }
       device [
         RotationalMotor {
@@ -317,8 +318,8 @@ Robot {
         }
       ]
       endPoint Solid {
-        translation 1.15 0 -0.65
-        rotation -0.7116906387287295 0.167458709958866 -0.6822419037297588 2.8445610282886107
+        translation 1.56 -0.45 -0.7
+        rotation 0.5819132165154433 -0.6062082617487409 0.5421148880377857 4.23478203044857
         children [
           Shape {
             appearance PBRAppearance {
@@ -326,14 +327,14 @@ Robot {
               roughness 0.7
             }
             geometry Cylinder {
-              height 0.27
+              height 0.4
               radius 0.36
             }
           }
         ]
         name "wheel_mid_right"
         boundingObject Cylinder {
-          height 0.27
+          height 0.4
           radius 0.36
         }
         physics Physics {
@@ -342,19 +343,10 @@ Robot {
         }
       }
     }
-    Shape {
-      appearance PBRAppearance {
-        baseColor 0.7 0.8 0.9
-        roughness 0.1
-      }
-      geometry Box {
-        size 2 3 1.5
-      }
-    }
   ]
   name "Mars_Hover"
   boundingObject Box {
-    size 2 3 1.5
+    size 2 4 1.5
   }
   physics Physics {
     density -1
@@ -367,13 +359,14 @@ Robot {
     }
   }
   controller "mars_hover_controller"
+  window "mars_hover_dashboard"
 }
 Solid {
   translation 0 -7.34 0
   children [
     Solid {
-      translation -12.669999625366488 -3.8400022428703036 5.128130964418409
-      rotation 0.49071715125663845 0.3369227761531895 -0.8035419841998284 3.4240261593687747e-07
+      translation 28.49 15.76 5.12516
+      rotation 0.4907171512566385 0.33692277615318955 -0.8035419841998284 3.4240261593687747e-07
       children [
         Shape {
           appearance PBRAppearance {
@@ -406,11 +399,82 @@ Solid {
         density -1
         mass 500
       }
-      linearVelocity 0 0 -1.449721779467823e-05
     }
     Solid {
-      translation -4.05 11.59 5.125166450593136
+      translation 37.44 35.91 5.12516
       rotation 0.4907171512566385 0.33692277615318955 -0.8035419841998284 3.4240261593687747e-07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 5
+          }
+        }
+      ]
+      name "rock_1(1)"
+      boundingObject Capsule {
+        height 1
+        radius 5
+        subdivision 16
+      }
+      physics Physics {
+        density -1
+        mass 500
+      }
+    }
+    Solid {
+      translation 22.76 45.27 5.12516
+      rotation 0.4907171512566385 0.33692277615318955 -0.8035419841998284 3.4240261593687747e-07
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+          }
+          geometry Capsule {
+            height 1
+            radius 5
+          }
+        }
+      ]
+      name "rock_1(2)"
+      boundingObject Capsule {
+        height 1
+        radius 5
+        subdivision 16
+      }
+      physics Physics {
+        density -1
+        mass 500
+      }
+    }
+    Solid {
+      translation -4.05 11.59 5.122198451110534
+      rotation 0.49071715125663856 0.3369227761531896 -0.8035419841998284 3.4240261593687747e-07
       children [
         Shape {
           appearance PBRAppearance {
@@ -443,11 +507,10 @@ Solid {
         density -1
         mass 500
       }
-      linearVelocity 0 0 -1.449721779467823e-05
     }
     Solid {
-      translation -63.11 -20.92 4.795159141058739
-      rotation 0.4921152047604468 0.3370397016964671 -0.8026374428868491 3.424026159368775e-07
+      translation -48.7558 17.193 4.79219
+      rotation -1.45698e-07 -2.23555e-07 1 -0.785395307179586
       children [
         Shape {
           appearance PBRAppearance {
@@ -464,6 +527,9 @@ Solid {
                 "../textures/rock_normal.png"
               ]
             }
+            textureTransform TextureTransform {
+              scale 10 10
+            }
           }
           geometry Box {
             size 100 10 15
@@ -478,7 +544,71 @@ Solid {
         density -1
         mass 500
       }
-      linearVelocity 0 0 -1.449721779467823e-05
+    }
+    Solid {
+      translation -53.2582 0.38612 4.79219
+      rotation -6.94632e-09 -1.28527e-07 1 -1.8325953071795862
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+            textureTransform TextureTransform {
+              scale 10 10
+            }
+          }
+          geometry Box {
+            size 100 10 15
+          }
+        }
+      ]
+      name "rock_2(2)"
+      boundingObject Box {
+        size 100 10 15
+      }
+    }
+    Solid {
+      translation -6.48513 85.3584 4.79219
+      rotation -1.45698e-07 -2.23555e-07 1 -0.785395307179586
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColor 1 0.3 0.3
+            baseColorMap ImageTexture {
+              url [
+                "../textures/rock_material.png"
+              ]
+              filtering 5
+            }
+            roughness 1
+            normalMap ImageTexture {
+              url [
+                "../textures/rock_normal.png"
+              ]
+            }
+            textureTransform TextureTransform {
+              scale 10 10
+            }
+          }
+          geometry Box {
+            size 100 10 15
+          }
+        }
+      ]
+      name "rock_2(1)"
+      boundingObject Box {
+        size 100 10 15
+      }
     }
     Transform {
       translation 0 -734 -11

@@ -1,10 +1,102 @@
+import json
+import os
+import time
+import threading
+import http.server
+import socketserver
+import mimetypes
+from urllib.parse import urlparse, unquote
+
 import numpy as np
 import cv2
 from controller import Display
 
 from config import ROI_TOP, ROI_BOTTOM, HIGH_RISK_RATIO, STATE_COLOR, RISK_COLOR
 from config import STATE_LIVRE, STATE_DESVIAR_ESQ, STATE_DESVIAR_DIR, STATE_PARAR, STATE_ALERTA
-from robot_setup import display, proximity_sensor_names, proximity_sensors
+from robot_setup import robot, display, proximity_sensor_names, proximity_sensors
+
+# ── Servidor HTTP local para o dashboard JS ──────────────────────────────────
+# O Webots abre o robot window num browser externo onde o objeto `webots` não
+# existe. O JS faz polling em http://localhost:8765/ a cada 200 ms.
+
+_HTTP_PORT   = 8765
+_latest_json = json.dumps({"type": "telemetry"})
+
+# Caminho do telemetry.json na pasta do plugin (mesmo diretório do HTML)
+_PLUGIN_JSON = os.path.normpath(os.path.join(
+    os.path.dirname(os.path.abspath(__file__)),
+    "..", "..", "plugins", "robot_windows", "mars_hover_dashboard", "telemetry.json"
+))
+_PLUGIN_DIR = os.path.dirname(_PLUGIN_JSON)
+
+
+class _TelemetryHandler(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        parsed_path = urlparse(self.path).path
+        if parsed_path in ("/telemetry", "/telemetry.json"):
+            self._send_json()
+            return
+
+        if parsed_path == "/":
+            self._send_file(os.path.join(_PLUGIN_DIR, "mars_hover_dashboard.html"))
+            return
+
+        requested = os.path.normpath(os.path.join(_PLUGIN_DIR, unquote(parsed_path.lstrip("/"))))
+        if os.path.commonpath([_PLUGIN_DIR, requested]) != _PLUGIN_DIR or not os.path.isfile(requested):
+            self.send_error(404)
+            return
+
+        self._send_file(requested)
+
+    def _send_json(self):
+        data = _latest_json.encode("utf-8")
+        self.send_response(200)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Pragma", "no-cache")
+        self.send_header("Expires", "0")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+    def _send_file(self, path):
+        try:
+            with open(path, "rb") as f:
+                data = f.read()
+        except OSError:
+            self.send_error(404)
+            return
+
+        content_type = mimetypes.guess_type(path)[0] or "application/octet-stream"
+        self.send_response(200)
+        self.send_header("Content-Type", content_type)
+        self.send_header("Access-Control-Allow-Origin", "*")
+        self.send_header("Cache-Control", "no-cache, no-store, must-revalidate")
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+
+    def log_message(self, *args):
+        pass   # silencia o log do servidor
+
+
+class _ReuseServer(socketserver.TCPServer):
+    allow_reuse_address = True
+
+
+def _run_server():
+    try:
+        with _ReuseServer(("", _HTTP_PORT), _TelemetryHandler) as httpd:
+            httpd.serve_forever()
+    except Exception as e:
+        print(f"[HTTP] Servidor falhou na porta {_HTTP_PORT}: {e}")
+
+
+_server_thread = threading.Thread(target=_run_server, daemon=True)
+_server_thread.start()
+print(f"[HTTP] Dashboard disponível em http://localhost:{_HTTP_PORT}/")
+
 
 # Layout 1024 × 900
 # ┌──────────────────────┬───────────────────────┐ 520 px
@@ -258,6 +350,87 @@ def build_dashboard(img_ann, gray, blurred, contrast_vis, edges,
     stat_bar = _build_status_bar(state, action, risk, route, num_obs, total_current, maneuver_phase)
 
     return np.vstack([top_row, pipe_row, stat_bar])
+
+
+# ── Comunicação WWI com o plugin JS ─────────────────────────────────────────
+
+_autonomous_mode = True
+_forced_stop = False
+
+
+def read_wwi_commands():
+    """Drena a fila de mensagens do plugin JS e atualiza o modo de operação."""
+    global _autonomous_mode, _forced_stop
+
+    while True:
+        message = robot.wwiReceiveText()
+        if message is None:
+            break
+
+        try:
+            data = json.loads(message)
+        except Exception:
+            continue
+
+        if data.get("type") != "command":
+            continue
+
+        command = data.get("command")
+        if command == "AUTO":
+            _autonomous_mode = True
+            _forced_stop = False
+            print("[WWI] Modo autônomo ativado")
+        elif command == "MANUAL":
+            _autonomous_mode = False
+            _forced_stop = False
+            print("[WWI] Modo manual ativado")
+        elif command == "STOP":
+            _forced_stop = True
+            print("[WWI] Parada forçada")
+
+
+def send_wwi_telemetry(state, action, risk, route, obstacles_count, zones,
+                       proximity_values, currents, total_current):
+    """Atualiza o cache HTTP e envia via WWI (se disponível)."""
+    global _latest_json
+
+    payload = {
+        "type": "telemetry",
+        "state": state,
+        "action": action,
+        "risk": risk,
+        "route": route,
+        "obstacles": obstacles_count,
+        "zones": zones,
+        "proximity": proximity_values,
+        "currents": currents,
+        "totalCurrent": total_current,
+        "mode": "STOP" if _forced_stop else ("AUTO" if _autonomous_mode else "MANUAL"),
+        "timestamp": time.time(),
+    }
+
+    json_str     = json.dumps(payload)
+    _latest_json = json_str   # lido pelo servidor HTTP (thread-safe via GIL)
+
+    # Escreve telemetry.json na pasta do plugin — o JS faz fetch direto do arquivo
+    try:
+        with open(_PLUGIN_JSON, "w", encoding="utf-8") as f:
+            f.write(json_str)
+    except Exception as e:
+        print(f"[JSON] Erro ao escrever telemetry.json: {e}")
+
+    try:
+        robot.wwiSendText(json_str)
+    except Exception:
+        pass
+
+
+def is_autonomous_mode():
+    return _autonomous_mode
+
+
+def is_forced_stop():
+    return _forced_stop
 
 
 def send_dashboard_to_display(dashboard):

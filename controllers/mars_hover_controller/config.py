@@ -10,17 +10,17 @@ MOTOR_KT = 0.8
 # ── Visão computacional ──────────────────────────────────────────────────────
 
 # Área mínima como fração do frame (se adapta a qualquer resolução de câmera)
-MIN_AREA_RATIO = 0.008     # 0.8 % do frame
-MIN_BOX_DIM    = 18        # px — bounding box mínimo
-MIN_SOLIDITY   = 0.28      # compacidade (0-1)
-MIN_ASPECT_RATIO = 0.10    # altura/largura mínima
+MIN_AREA_RATIO   = 0.020   # 2% do frame — ignora pedras pequenas do solo
+MIN_BOX_DIM      = 28      # px — bounding box mínimo
+MIN_SOLIDITY     = 0.32    # compacidade (0-1)
+MIN_ASPECT_RATIO = 0.14    # altura/largura mínima — filtra objetos muito rasos
 
-LOW_RISK_RATIO  = 0.020   # abaixo disso: só alerta, rover pode passar
-HIGH_RISK_RATIO = 0.055
-CRITICAL_RATIO  = 0.13
+LOW_RISK_RATIO  = 0.040   # abaixo disso: obstáculo quase irrelevante, segue reto
+HIGH_RISK_RATIO = 0.075
+CRITICAL_RATIO  = 0.16
 
 ROI_TOP    = 0.08
-ROI_BOTTOM = 0.92
+ROI_BOTTOM = 0.84          # corta os 16% inferiores (textura do chão próximo)
 
 
 # ── Estados ──────────────────────────────────────────────────────────────────

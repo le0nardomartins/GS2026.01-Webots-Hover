@@ -33,8 +33,8 @@ def _obstacle_mask(blurred):
     bg     = cv2.resize(bg_sm, (w, h), interpolation=cv2.INTER_LINEAR)
     diff1  = np.clip(bg.astype(np.int16) - blurred.astype(np.int16), 0, 255).astype(np.uint8)
 
-    # Método 2 – percentil de cena
-    p72    = float(np.percentile(blurred, 72))
+    # Método 2 – percentil de cena (80º percentil = menos sensível a pedras pequenas)
+    p72    = float(np.percentile(blurred, 80))
     diff2  = np.clip(p72 - blurred.astype(np.float32), 0, 255).astype(np.uint8)
 
     diff   = cv2.max(diff1, diff2)
@@ -70,7 +70,8 @@ def cv_pipeline(frame):
 
     contours, _ = cv2.findContours(mask, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
-    near_zone_y = roi_y1 + int((roi_y2 - roi_y1) * 0.20)
+    # Base do obstáculo deve estar abaixo de 52% do ROI — filtra paredes/horizonte e pedras distantes
+    near_zone_y = roi_y1 + int((roi_y2 - roi_y1) * 0.52)
     min_area    = max(150, int(frame_area * MIN_AREA_RATIO))
 
     obstacles = []

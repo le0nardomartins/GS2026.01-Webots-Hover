@@ -30,9 +30,9 @@ def decide_by_vision(obstacles, frame_width):
     # Descarta obstáculos insignificantes antes da análise de zonas
     significant = [o for o in obstacles if o["ratio"] >= LOW_RISK_RATIO]
 
-    if max_ratio >= CRITICAL_RATIO or len(significant) >= 5:
+    if max_ratio >= CRITICAL_RATIO or len(significant) >= 8:
         risk = "CRITICO"
-    elif max_ratio >= HIGH_RISK_RATIO or len(significant) >= 3:
+    elif max_ratio >= HIGH_RISK_RATIO or len(significant) >= 5:
         risk = "ALTO"
     else:
         risk = "MEDIO"

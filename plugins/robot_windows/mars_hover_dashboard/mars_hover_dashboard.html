@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mars Hover - Mission Control</title>
+  <link rel="stylesheet" href="mars_hover_dashboard.css?v=mock-20260610" />
+</head>
+<body>
+  <div class="scanlines"></div>
+  <div class="grid-bg"></div>
+
+  <main class="dashboard">
+    <header class="header">
+      <div class="header-left">
+        <div class="logo-ring"></div>
+        <div class="header-text">
+          <h1>MARS HOVER</h1>
+          <p>MOCK MODE - RANDOM TELEMETRY</p>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div id="currentMode" class="mode-badge">---</div>
+        <div id="connectionStatus" class="status disconnected">
+          <span class="status-dot"></span>
+          <span id="statusText">AGUARDANDO</span>
+        </div>
+        <button id="btnFullscreen" class="btn-fs" title="Maximizar janela" aria-label="Maximizar janela">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M2 6V2h4M10 2h4v4M2 10v4h4M14 10v4h-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+
+    <section class="main-grid">
+      <article class="card card-state">
+        <div class="card-corner tl"></div><div class="card-corner tr"></div>
+        <div class="card-corner bl"></div><div class="card-corner br"></div>
+        <h2>ESTADO DO ROVER</h2>
+        <div class="state-box">
+          <span id="roverState">---</span>
+        </div>
+        <div class="info-rows">
+          <div class="info-row">
+            <span>ACAO</span>
+            <strong id="roverAction">---</strong>
+          </div>
+          <div class="info-row">
+            <span>RISCO</span>
+            <strong id="roverRisk">---</strong>
+          </div>
+          <div class="info-row last">
+            <span>ROTA</span>
+            <strong id="roverRoute">---</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-proximity">
+        <div class="card-corner tl"></div><div class="card-corner tr"></div>
+        <div class="card-corner bl"></div><div class="card-corner br"></div>
+        <h2>PROXIMIDADE</h2>
+        <div class="sensor-map">
+          <div></div>
+          <div class="sensor-pill" id="prox_front">F: 0</div>
+          <div></div>
+          <div class="sensor-pill" id="prox_front_left">FL: 0</div>
+          <div class="rover-icon">
+            <div class="rover-ring"></div>
+            &#8593;
+          </div>
+          <div class="sensor-pill" id="prox_front_right">FR: 0</div>
+          <div class="sensor-pill" id="prox_left">L: 0</div>
+          <div></div>
+          <div class="sensor-pill" id="prox_right">R: 0</div>
+        </div>
+      </article>
+
+      <article class="card card-vision">
+        <div class="card-corner tl"></div><div class="card-corner tr"></div>
+        <div class="card-corner bl"></div><div class="card-corner br"></div>
+        <h2>VISAO COMPUTACIONAL</h2>
+        <div class="vision-content">
+          <div class="obs-row">
+            <span>OBSTACULOS DETECTADOS</span>
+            <strong id="obstacleCount" class="neon-value">0</strong>
+          </div>
+          <div class="zone-map">
+            <div class="zone-cell" id="zoneCellLeft">
+              <div class="zone-label">ESQ</div>
+              <div class="zone-status" id="zoneLeft">Livre</div>
+            </div>
+            <div class="zone-cell" id="zoneCellCenter">
+              <div class="zone-label">CTR</div>
+              <div class="zone-status" id="zoneCenter">Livre</div>
+            </div>
+            <div class="zone-cell" id="zoneCellRight">
+              <div class="zone-label">DIR</div>
+              <div class="zone-status" id="zoneRight">Livre</div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card card-motors">
+        <div class="card-corner tl"></div><div class="card-corner tr"></div>
+        <div class="card-corner bl"></div><div class="card-corner br"></div>
+        <h2>MOTORES</h2>
+        <div class="motor-list">
+          <div class="motor-item">
+            <span>FRONT L</span>
+            <div class="bar"><div id="bar_motor_front_left"></div></div>
+            <strong id="motor_front_left">0.0 A</strong>
+          </div>
+          <div class="motor-item">
+            <span>MID L</span>
+            <div class="bar"><div id="bar_motor_mid_left"></div></div>
+            <strong id="motor_mid_left">0.0 A</strong>
+          </div>
+          <div class="motor-item">
+            <span>BACK L</span>
+            <div class="bar"><div id="bar_motor_back_left"></div></div>
+            <strong id="motor_back_left">0.0 A</strong>
+          </div>
+          <div class="motor-divider"></div>
+          <div class="motor-item">
+            <span>FRONT R</span>
+            <div class="bar"><div id="bar_motor_front_right"></div></div>
+            <strong id="motor_front_right">0.0 A</strong>
+          </div>
+          <div class="motor-item">
+            <span>MID R</span>
+            <div class="bar"><div id="bar_motor_mid_right"></div></div>
+            <strong id="motor_mid_right">0.0 A</strong>
+          </div>
+          <div class="motor-item">
+            <span>BACK R</span>
+            <div class="bar"><div id="bar_motor_back_right"></div></div>
+            <strong id="motor_back_right">0.0 A</strong>
+          </div>
+        </div>
+        <div class="total-row">
+          <span>CORRENTE TOTAL</span>
+          <strong id="totalCurrent" class="neon-value">0.0 A</strong>
+        </div>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span class="footer-label">ULTIMA ATUALIZACAO</span>
+      <strong id="lastUpdate">---</strong>
+    </footer>
+  </main>
+
+  <script src="mars_hover_dashboard.js?v=mock-20260610"></script>
+</body>
+</html>
